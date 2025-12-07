@@ -9,7 +9,7 @@ import numpy as np
 app = FastAPI(title="GIF Service")
 
 # 允許 CORS (跨來源資源共享) 設置
-# 這裡使用 "*" 允許所有來源，以確保您的前端網頁能夠連線成功。
+# 使用 "*" 允許所有來源，確保您的前端網頁能夠連線成功。
 origins = ["*"]
 
 app.add_middleware(
@@ -95,8 +95,8 @@ async def generate_gif(file: UploadFile = File(...)):
         return Response(content=gif_data, media_type="image/gif")
 
     except Exception as e:
+        # 如果出現任何錯誤，在伺服器端回傳詳細錯誤訊息
         print(f"Error during GIF generation: {e}")
-        # 在伺服器端發生錯誤時，回傳詳細錯誤訊息
         raise HTTPException(status_code=500, detail=f"Server failed to process the image: {e}")
 
 # 設置完成後，Render 會使用 uvicorn main:app --host 0.0.0.0 --port 10000 來啟動它
